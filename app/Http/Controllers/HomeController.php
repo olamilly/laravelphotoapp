@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\content;
+use App\Models\Photo;
 class HomeController extends Controller
 {
     
@@ -15,6 +15,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', ["posts"=>content::paginate(5)]);
+        return view('home', ["posts"=>Photo::paginate(5)]);
     }
 }

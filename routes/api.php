@@ -19,13 +19,13 @@ Route::middleware('auth:sanctum')->get('/photoapp/user', function (Request $requ
 });
 
 
-Route::get('/photoapp', [App\Http\Controllers\Api\apiContentController::class, 'read']);
+Route::get('/photoapp', [App\Http\Controllers\Api\apiPhotoController::class, 'read']);
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/photoapp', [App\Http\Controllers\Api\apiContentController::class, 'create']);
+    Route::post('/photoapp', [App\Http\Controllers\Api\apiPhotoContentController::class, 'create']);
 
-    Route::get('/photoapp/{id}', [App\Http\Controllers\Api\apiContentController::class, 'getItem']);
-    Route::patch('/photoapp/{id}', [App\Http\Controllers\Api\apiContentController::class, 'update']);
-    Route::delete('/photoapp/{id}', [App\Http\Controllers\Api\apiContentController::class, 'delete']);
+    Route::get('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'getItem']);
+    Route::patch('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'update']);
+    Route::delete('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'delete']);
 });
 
 

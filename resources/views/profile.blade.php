@@ -84,7 +84,7 @@
         <h1><span>@</span>{{ $username }} Posts</h1>
     </div>
 @for($i = 0; $i < $len; $i++)
-    <section>
+    <section style="text-align: center">
       <div style="background-color:lightgrey; display:flex; align-items:center; padding:5px; margin:1px;">
       <box-icon type='solid' name='user-circle'></box-icon>
       <p id="username"><span>@</span>{{ $yourPosts[$i]->username }}</p>
