@@ -19,16 +19,16 @@ Route::middleware('auth:sanctum')->get('/photoapp/user', function (Request $requ
 });
 
 
-Route::get('/photoapp', [App\Http\Controllers\Api\apiPhotoController::class, 'read']);
+Route::get('/photo', [App\Http\Controllers\Api\apiPhotoController::class, 'read']);
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/photoapp', [App\Http\Controllers\Api\apiPhotoContentController::class, 'create']);
+    Route::post('/photo', [App\Http\Controllers\Api\apiPhotoController::class, 'create']);
 
-    Route::get('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'getItem']);
-    Route::patch('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'update']);
-    Route::delete('/photoapp/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'delete']);
+    Route::get('/photo/:id', [App\Http\Controllers\Api\apiPhotoController::class, 'getItem']);
+    Route::patch('/photo/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'update']);
+    Route::delete('/photo/{id}', [App\Http\Controllers\Api\apiPhotoController::class, 'delete']);
 });
 
 
 //login and register
-Route::post("/photoapp/register","App\Http\Controllers\Api\apiAuthController@register");
-Route::post("/photoapp/login","App\Http\Controllers\Api\apiAuthController@login");
+Route::post("register","App\Http\Controllers\Api\apiAuthController@register");
+Route::post("login","App\Http\Controllers\Api\apiAuthController@login");
