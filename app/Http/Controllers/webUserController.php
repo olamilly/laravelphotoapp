@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\post;
+use App\Models\content;
 use Auth;
 
 class webUserController extends Controller
@@ -13,7 +13,7 @@ class webUserController extends Controller
     
 
     public function read(Request $r){
-        $model=post::all();
+        $model=content::all();
         $username=User::where("id",$r->id)->first()->name;
         \Log::info($username);
         $e=[];

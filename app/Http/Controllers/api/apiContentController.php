@@ -2,11 +2,11 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
-use App\models\post;
+use App\models\content;
 use App\models\User;
 use Auth;
 
-class apidataController extends Controller
+class apiContentController extends Controller
 {
     //
     public function create(Request $r){
@@ -14,7 +14,7 @@ class apidataController extends Controller
             'image'=>'required|mimes:jpeg, jpg, png|max:2048'
         ]);
         $user = User::find(Auth::User()->id);
-        $newPost = new post;
+        $newPost = new content;
         if($r->username){
             $newPost->username = $r->username;
         }
@@ -30,26 +30,22 @@ class apidataController extends Controller
       
         $newPost->caption = $r->caption;
         $user = $user->userPosts()->save($newPost);
-        return response()->json(["posts"=>post::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
+        return response()->json(["posts"=>content::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function read(){
-        return response()->json(["posts"=>post::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
-    }
-    public function search(Request $r){
-        $searchResult = post::where("caption",$r->q)->first();
-        return response()->json($searchResult);
+        return response()->json(["posts"=>content::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function delete(string $id){
-        $tbd = post::where("id",$id)->first();
+        $tbd = content::where("id",$id)->first();
         if($tbd->user_id != Auth::User()->id){
             //can't delete a post if its not yours
             return response()->json(["message"=>"You are not authorized to delete this post."]);
         }
         $tbd->delete();
-        return response()->json(["posts"=>post::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
+        return response()->json(["posts"=>content::paginate(5)], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function update(string $id, Request $r){
-        $tbe = post::where("id",$id)->first();
+        $tbe = content::where("id",$id)->first();
         if($tbd->user_id != Auth::User()->id){
             //can't edit a post if its not yours
             return response()->json(["message"=>"You are not authorized to modify this post."]);
@@ -57,6 +53,10 @@ class apidataController extends Controller
         $tbe->caption = $r->caption;
         $tbe->update();
         return response()->json($tbe, 200, [], JSON_UNESCAPED_SLASHES);
+    }
+    public function getItem(string $id){
+        $item = content::where("id",$id)->first();
+        return response()->json($item);
     }
     
 }

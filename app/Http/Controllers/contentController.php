@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Image;
-use App\Models\post;
+use App\Models\content;
 use App\Models\User;
 use Illuminate\Support\Facades\Response;
-class postController extends Controller
+class contentController extends Controller
 {
     //
     /**
@@ -31,7 +31,7 @@ class postController extends Controller
             'image'=>'required|mimes:jpeg, jpg, png|max:2048'
         ]);
         $user = User::find(Auth::User()->id);
-        $newData = new post;
+        $newData = new content;
         
         $file= $newPost->file('image');
         $filename= date('YmdHi').$file->getClientOriginalName();
@@ -44,7 +44,7 @@ class postController extends Controller
         return redirect('/home');
     }
     public function delete(Request $r){
-        $tbd=post::find($r->post_id);
+        $tbd=content::find($r->post_id);
         if($tbd->user_id != Auth::User()->id){
             return redirect()->back()->with('error', 'Not Authorized to modify this post');
         }
@@ -52,7 +52,7 @@ class postController extends Controller
         return redirect()->back()->with('success', 'Post Edited successfully');
     }
     public function update(Request $myData){
-        $model = post::find($myData->id);
+        $model = content::find($myData->id);
         if($model->user_id != Auth::User()->id){
             return redirect()->back()->with('error', 'Not Authorized to modify this post');
         }
