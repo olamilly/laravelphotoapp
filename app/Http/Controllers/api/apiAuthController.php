@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
+use App\models\user;
+use Auth;
 
 class apiAuthController extends Controller
 {
@@ -27,9 +29,9 @@ class apiAuthController extends Controller
     }
 
     public function login(Request $r){ 
-        \Log::info($r);
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
+            $success['name'] =  $user->name;
             $success['token'] =  $user->createToken('user-token')-> plainTextToken; 
             return response()->json(['success' => $success], 200); 
         } 

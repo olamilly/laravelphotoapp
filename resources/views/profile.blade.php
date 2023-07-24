@@ -7,22 +7,10 @@
             text-align:center;
             min-height:650px;
         }
+       
         .modal-header{
             text-align:center;
             justify-content:center;
-        }
-        #btn-group{
-          display:flex;
-          align-items:center;
-          justify-content: center;
-        }
-        #links{
-          width:100%;
-          display:flex;
-          justify-content:center;
-        }
-        h1{
-            margin-bottom:5px;
         }
         .inactive{
           display:none;
@@ -32,28 +20,23 @@
           border-radius:3px;
           width:30%;
           margin:10px;
-          margin:10px;
           min-width:250px;
         }
         #username{
+          width:100%; 
           margin-bottom:0;
         }
     </style>
+    
 </head>
 <body>
 <div id="container">
-@if(session()->has('error'))
-    <div style="width:100%; display:flex; justify-content:center">
-    <div class="card" style="width:30%">
-  <div class="card-header">
-    Success
-    <box-icon id=closeCard name='x' style="position:absolute; right:0; height:25px"></box-icon>
-  </div>
-  <div class="card-body">
-    {{ session()->get('error')}}
-  </div>
-</div></div>
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
     @endif
+    
     @if(session()->has('success'))
     <div style="width:100%; display:flex; justify-content:center">
     <div class="card" style="width:30%">
@@ -66,45 +49,69 @@
   </div>
 </div></div>
     @endif
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
-    <h1>Olamilly Photo App</h1>
     @if(Auth::User())
-    <h3>Welcome, {{ Auth::user()->name }}</h3>
-    @endif
+    @if(Auth::User()->id == $id)
+    <h1><span>@</span>{{ Auth::user()->name }}</h1>
+    <p>{{  Auth::user()->email }}</p>
     
-    @foreach($posts as $post)
+    
+    <div id="btn-group">
+        <a href="{{route('edituser', ['id'=>Auth::user()->id])}}"><button class="btn btn-primary ">Edit Profile</button></a>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete Profile</button>
+    </div>
+   
+    <hr>
+    
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-center" id="exampleModalLabel">Are you sure?</h5>
+      </div>
+      <div class="modal-body">
+        Your profile will be permanently deleted from the database and cannot be recovered.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="{{ route('deleteuser', ['id'=>Auth::user()->id]) }}"><button type="button" class="btn btn-danger">Confirm Delete</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+@endif
+@endif
+<div>
+        <h1><span>@</span>{{ $username }} Posts</h1>
+    </div>
+@for($i = 0; $i < $len; $i++)
     <section>
-    <div style="background-color:lightgrey; display:flex; align-items:center; padding:5px; margin:1px;">
-    <box-icon type='solid' name='user-circle'></box-icon>
-      <a href="{{ route('profile', ['id'=>$post->user_id]) }}" style="width:100%" ><p id="username"><span>@</span>{{ $post->username }}</p></a></div>
-      <img src="{{ url('public/Image/'.$post->image) }}" style="height: 200px; width: 250px;" />
-      <p id="caption" style="background-color:grey; margin-top:1rem">{{ $post->caption}}</p>
-      <form class="captionForm inactive" id="{{$post->id}}" method="post" action="{{route('updated')}}">
+      <div style="background-color:lightgrey; display:flex; align-items:center; padding:5px; margin:1px;">
+      <box-icon type='solid' name='user-circle'></box-icon>
+      <p id="username"><span>@</span>{{ $yourPosts[$i]->username }}</p>
+      </div>
+      <img src="{{ url('public/Image/'.$yourPosts[$i]->image) }}" style="height: 200px; width: 250px;" />
+      <p id="caption" style="background-color:grey; margin-top:1rem">{{ $yourPosts[$i]->caption}}
+      <form class="captionForm inactive" id="{{$yourPosts[$i]->id}}" method="post" action="{{route('updated')}}">
             {{ csrf_field() }}
-            <input name="id" type=hidden value="{{$post->id}}" />
+            <input name="id" type=hidden value="{{$yourPosts[$i]->id}}" />
       <input name="newCaption" type=text placeholder="Enter New Caption"/>
       <input type=submit value=Edit />
       </form>
       @if(Auth::User())
-      @if( $post->user_id == Auth::User()->id)
+      @if(Auth::User()->id == $yourPosts[$i]->user_id)
       <div id="btn-group" style="display:flex; align-items:center; justify-content:center;">
-            <p id=itemid class=inactive>{{$post->id}}</p>
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal"><box-icon name='trash' style="cursor: pointer; margin:.5rem"></box-icon></a>
-            <a class=edit id="{{$post->id}}" ><box-icon name='pencil' style="cursor: pointer; margin:.5rem"></box-icon></a>
+            <p id=itemid class=inactive>{{$yourPosts[$i]->id}}</p>
+            <a data-bs-toggle="modal" data-bs-target="#exampleModal2"><box-icon name='trash' style="cursor: pointer; margin:.5rem"></box-icon></a>
+            <a class=edit id="{{$yourPosts[$i]->id}}" ><box-icon name='pencil' style="cursor: pointer; margin:.5rem"></box-icon></a>
       </div>
       @endif
       @endif
-      <p id=date>Posted on: {{@substr($post->created_at,0,10)}}</p>
+      <p id=date>Posted on: {{@substr($yourPosts[$i]->created_at,0,10)}}</p>
     </section>
-    
-    
+    </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -124,15 +131,9 @@
     </div>
   </div>
 </div>
-@endforeach
-<!--PAGINATION-->
-<div id="links">
-  {{ $posts->links('vendor.pagination.bootstrap-5') }}
-</div>
-</div>
+@endfor
 <script>
-  
-    var boxList = document.querySelectorAll(".myBtn");
+  var boxList = document.querySelectorAll(".myBtn");
       boxList.forEach(box => {
         box.addEventListener('click', function b(){boxOperation(this)});
       });
@@ -140,7 +141,7 @@
         var val= e.closest('#btn-group').children[0].innerText;
         document.getElementById("delitemid").value=val;  
     }
-  var sl = document.querySelectorAll(".edit");
+    var sl = document.querySelectorAll(".edit");
   var dl = document.querySelectorAll(".captionForm");
       sl.forEach(box => {
         box.addEventListener('click', function b(){so(this)});

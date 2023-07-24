@@ -17,11 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/photoapp', [App\Http\Controllers\Api\apipostController::class, 'create']); 
-    Route::delete('/photoapp/{id}', [App\Http\Controllers\Api\apipostController::class, 'delete']);
+    Route::post('/photoapp', [App\Http\Controllers\Api\apidataController::class, 'create']); 
+    Route::patch('/photoapp/{id}', [App\Http\Controllers\Api\apidataController::class, 'update']);
+    Route::delete('/photoapp/{id}', [App\Http\Controllers\Api\apidataController::class, 'delete']);
 });
-Route::get('/photoapp', [App\Http\Controllers\Api\apipostController::class, 'read']); 
-Route::get('/photoapp', [App\Http\Controllers\Api\apipostController::class, 'search']);
-Route::post("register","App\Http\Controllers\Api\apiAuthController@register");
-Route::post("login","App\Http\Controllers\Api\apiAuthController@login");
+
+Route::get('/photoapp', [App\Http\Controllers\Api\apidataController::class, 'read']); 
+//Route::get('/photoapp', [App\Http\Controllers\Api\apidataController::class, 'search']);
+
+Route::post("/photoapp/register","App\Http\Controllers\Api\apiAuthController@register");
+Route::post("/photoapp/login","App\Http\Controllers\Api\apiAuthController@login");
