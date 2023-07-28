@@ -6,7 +6,7 @@ use App\models\Photo;
 use App\models\User;
 use Auth;
 
-class apiPhotoController extends Controller
+class PhotoController extends Controller
 {
     //
     public function create(Request $r){

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Image;
-use App\Models\content;
+use Storage;
+use App\Models\Photo;
 use App\Models\User;
 use Illuminate\Support\Facades\Response;
-class contentController extends Controller
+class PhotoController extends Controller
 {
     //
     /**
@@ -31,11 +32,11 @@ class contentController extends Controller
             'image'=>'required|mimes:jpeg, jpg, png|max:2048'
         ]);
         $user = User::find(Auth::User()->id);
-        $newData = new content;
+        $newData = new Photo;
         
         $file= $newPost->file('image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
-        $file-> move(public_path('public/Image'), $filename);
+        $filename= "upload.".$file->getClientOriginalName();
+        Storage::disk('public')->put($filename, file_get_contents($file));
         
         $newData->image = $filename;
         $newData->caption=  $newPost->caption;
@@ -44,7 +45,7 @@ class contentController extends Controller
         return redirect('/home');
     }
     public function delete(Request $r){
-        $tbd=content::find($r->post_id);
+        $tbd=Photo::find($r->post_id);
         if($tbd->user_id != Auth::User()->id){
             return redirect()->back()->with('error', 'Not Authorized to modify this post');
         }
@@ -52,7 +53,7 @@ class contentController extends Controller
         return redirect()->back()->with('success', 'Post Edited successfully');
     }
     public function update(Request $myData){
-        $model = content::find($myData->id);
+        $model = Photo::find($myData->id);
         if($model->user_id != Auth::User()->id){
             return redirect()->back()->with('error', 'Not Authorized to modify this post');
         }

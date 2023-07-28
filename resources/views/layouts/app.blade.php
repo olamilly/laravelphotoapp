@@ -13,6 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link rel="icon" href="{{ URL::asset('photoicon.png') }}" type="image/x-icon"/>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
@@ -62,16 +63,21 @@
             width:40%;
             align-items:center;
         }
+        #foreign, #local{
+            margin-bottom:0px;
+            margin-right:2px;
+            margin-left:2px;
+        }
     </style>
 </head>
 <body>
-    <div id="app">
+    <div id="app"> <!--where vue app is supposed to be mounted -->
     <div id="hero"></div>
         <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    PhotosApp
+                    <img src="{{ URL::asset('photoicon.png') }}" height="50px" width="50px" />PhotoApp
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -79,14 +85,28 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto" style="display: flex; justify-content:center; width:100%;">
-                        <div class="form-inline my-2 my-lg-0" id="searchBar">
-                            <input class="form-control mr-sm-2" style="margin-right:5px; width:100%" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-    </div>
+                    <ul class="navbar-nav me-auto" style="display: flex; justify-content:space-around; align-items:center; width:100%;">
+                        <div class="form-inline my-2 my-lg-0" id="searchBar" style="display:none;">
+                            <form method="" action="" id="localForm" style="display:none; width:100%">
+                                {{ csrf_field() }}
+                                <input class="form-control mr-sm-2" name=query style="margin-right:5px;" required type="search" placeholder="Search Local Database" value="{{request()->get('query')}}" aria-label="Search">
+                                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                            <form method="post" action="{{route('search')}}" id="foreignForm" style="display:none; width:100%">
+                                {{ csrf_field() }}
+                                <input class="form-control mr-sm-2" name=foreignQuery style="margin-right:5px;" type="search" placeholder="Search Pixabay" value="{{request()->get('foreignQuery')}}" aria-label="Search">
+                                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                        </div>
+                        <li class="nav-item" style="cursor: pointer" >
+                            <p id=local >Local Search</p>
+                        </li>  
                         @guest
                            
                         @else
+                            <li class="nav-item" style="cursor: pointer" >
+                                <p id=foreign >Third Party Search</p>
+                            </li>
                             <li class="nav-item" >
                                 <a class="nav-link" href="{{route('newpost')}}">New Post</a>
                             </li>
@@ -137,7 +157,7 @@
             </div>
         </nav></header>
 
-        <main class="py-4 my-2">
+        <main class=" my-4">
         
             @yield('content')
         </main>
@@ -158,6 +178,21 @@
     if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
         location.reload();
     }
+
+    document.getElementById("local").addEventListener("click",()=>{
+        document.getElementById("searchBar").style.display="block";
+        document.getElementById("localForm").style.display="flex";
+        document.getElementById("foreignForm").style.display="none";
+        document.getElementById("local").style.display="none";
+        document.getElementById("foreign").style.display="block";
+    })
+    document.getElementById("foreign").addEventListener("click",()=>{
+        document.getElementById("searchBar").style.display="block";
+        document.getElementById("foreignForm").style.display="flex";
+        document.getElementById("localForm").style.display="none";
+        document.getElementById("foreign").style.display="none";
+        document.getElementById("local").style.display="block";
+    })
     </script>
     </div>
 </body>

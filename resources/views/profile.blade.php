@@ -20,11 +20,14 @@
           border-radius:3px;
           width:30%;
           margin:10px;
-          min-width:250px;
+          min-width:360px;
         }
         #username{
           width:100%; 
           margin-bottom:0;
+        }
+        p#caption{
+          margin-top:0px;
         }
     </style>
     
@@ -83,14 +86,20 @@
 <div>
         <h1><span>@</span>{{ $username }} Posts</h1>
     </div>
-@for($i = 0; $i < $len; $i++)
+@for($i = $len-1; $i >=0; $i--)
     <section style="text-align: center">
       <div style="background-color:lightgrey; display:flex; align-items:center; padding:5px; margin:1px;">
       <box-icon type='solid' name='user-circle'></box-icon>
       <p id="username"><span>@</span>{{ $yourPosts[$i]->username }}</p>
       </div>
-      <img src="{{ url('public/Image/'.$yourPosts[$i]->image) }}" style="height: 200px; width: 250px;" />
-      <p id="caption" style="background-color:grey; margin-top:1rem">{{ $yourPosts[$i]->caption}}
+      <img src="{{ url('storage/'.$yourPosts[$i]->image) }}" style="height: 350px; width: 350px;" />
+      @if(substr($yourPosts[$i]->image,0,6)!="upload")
+      <p style="margin-bottom:0;">Image downloaded from <span style="color:grey">pixabay.com</span></p>
+      <p id="caption" style="background-color:lightgrey">Caption: {{ $yourPosts[$i]->caption}} {{@substr($yourPosts[$i]->created_at,11,8)}}</p>
+      @else
+      <p style="margin-bottom:0;">Image uploaded by user locally</p>
+      <p id="caption" style="background-color:lightgrey">Caption: {{ $yourPosts[$i]->caption}}</p>
+      @endif
       <form class="captionForm inactive" id="{{$yourPosts[$i]->id}}" method="post" action="{{route('updated')}}">
             {{ csrf_field() }}
             <input name="id" type=hidden value="{{$yourPosts[$i]->id}}" />

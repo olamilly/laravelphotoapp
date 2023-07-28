@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\models\user;
 use Auth;
 
-class apiAuthController extends Controller
+class AuthController extends Controller
 {
     //
     public function register(Request $request) 
