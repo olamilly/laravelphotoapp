@@ -1,16 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import CompaniesIndex from '@/components/homeIndex.vue'
+import homeindex from '@/components/homeindex.vue'
 
 const routes = [
     {
-        path: '/home',
-        name: 'home.index',
-        component: homeIndex
+        path: '/',
+        name: 'home',
+        component: homeindex
     }
 ];
 
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+export default router;

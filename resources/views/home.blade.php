@@ -1,7 +1,8 @@
-@extends("layouts.app")
-@section("content")
-<router-view />
+@extends('layouts.app')
+
+@section('content')
+<div class="container" id=app>
+    <router-view />
+</div>
+
 @endsection
-
-
-

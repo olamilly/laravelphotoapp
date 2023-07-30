@@ -16,6 +16,7 @@
     <link rel="icon" href="{{ URL::asset('photoicon.png') }}" type="image/x-icon"/>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <style>
         *{
             box-sizing:border-box;
@@ -69,9 +70,10 @@
             margin-left:2px;
         }
     </style>
+    <script src="{{ asset('resources/js/app.js') }}"></script>
 </head>
 <body>
-    <div id="app"> <!--where vue app is supposed to be mounted -->
+    <div>
     <div id="hero"></div>
         <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -170,6 +172,7 @@
                     <li class="nav-item"><a href="#" class="nav-link px-2"><box-icon name='linkedin-square' type='logo' ></box-icon></a></li>
                 </ul>
             </footer>
+            
             <script>
     // previous page should be reloaded when user navigate through browser navigation
     // for mozilla

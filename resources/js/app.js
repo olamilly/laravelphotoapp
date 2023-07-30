@@ -1,14 +1,13 @@
-require('./bootstrap');
+//require('./bootstrap');
 
-require('alpinejs');
 
-import { createApp } from 'vue';
-import router from './router'
-
-import homeIndex from '@/components/homeIndex.vue';
-
-createApp({
-    components: {
-       homeIndex
-    }
-}).use(router).mount('#app')
+import { createApp } from 'vue/dist/vue.esm-bundler.js';
+import homeindex from './components/homeindex.vue'
+import router from './router/index.js'; 
+const app = createApp({
+  components:{
+    homeindex
+  }
+})
+app.use(router)
+app.mount('#app')
