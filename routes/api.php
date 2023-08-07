@@ -18,12 +18,10 @@ Route::middleware('auth:sanctum')->get('/photoapp/user', function (Request $requ
     return $request->user();
 });
 
-//first get request
+
 Route::get('/photo', [App\Http\Controllers\Api\PhotoController::class, 'read']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/photo', [App\Http\Controllers\Api\PhotoController::class, 'create']);
-
-    //second get request
     Route::get('/photo/{id}', [App\Http\Controllers\Api\PhotoController::class, 'getItem']);
     Route::patch('/photo/{id}', [App\Http\Controllers\Api\PhotoController::class, 'update']);
     Route::delete('/photo/{id}', [App\Http\Controllers\Api\PhotoController::class, 'delete']);

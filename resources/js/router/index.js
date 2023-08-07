@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import homeindex from '@/components/homeindex.vue'
-
+import newpost from '@/components/newpost.vue'
 const routes = [
     {
         path: '/',
@@ -12,6 +12,11 @@ const routes = [
         path: '/home',
         name: 'home2',
         component: homeindex
+    },
+    {
+        path: '/newpost',
+        name: 'newpost',
+        component: newpost
     },
 ];
 

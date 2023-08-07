@@ -14,12 +14,12 @@ export default function usePhotos() {
         });
     }
 
-    const getPhoto = async (id) => {
-        let response = await axios.get(`/api/photo/${id}`)
-        photo.value = response.data.data
+    const newPhoto = async () => {
+        let response = await axios.post(`/api/photo`)
+
     }
 
-    onMounted(()=> getPhotos)
+    
     return {
         photo,
         photos,
