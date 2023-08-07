@@ -1,9 +1,8 @@
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 export default function usePhotos() {
-    const photo = ref([])
     const photos = ref([])
 
     const getPhotos = async () => {
@@ -19,11 +18,8 @@ export default function usePhotos() {
 
     }
 
-    
     return {
-        photo,
         photos,
-        getPhoto,
         getPhotos
     }
 }

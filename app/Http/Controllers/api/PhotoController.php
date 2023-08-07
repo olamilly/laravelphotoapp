@@ -2,9 +2,12 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
-use App\models\Photo;
-use App\models\User;
 use Auth;
+use Image;
+use Storage;
+use App\Models\Photo;
+use App\Models\User;
+use Illuminate\Support\Facades\Response;
 
 class PhotoController extends Controller
 {
